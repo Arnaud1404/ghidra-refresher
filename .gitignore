@@ -1,0 +1,5 @@
+# Ghidra projects
+*.gpr
+*.rep/
+*.lock
+*.lock~

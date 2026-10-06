@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use these exercises, please credit them as below."
+title: "Ghidra refresher: minimal viable exercises"
+authors:
+  - family-names: Gomes
+    given-names: Arnaud
+repository-code: "https://github.com/Arnaud1404/ghidra-refresher"
+license: MIT
