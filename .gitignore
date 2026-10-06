@@ -3,3 +3,6 @@
 *.rep/
 *.lock
 *.lock~
+
+# Personal notes
+NOTES.md

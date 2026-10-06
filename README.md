@@ -88,7 +88,9 @@ import `ex1-64`, and accept the default analysis.
 
 ## Exercise 2: stripped and `-O3` (25 min)
 
-`ex2-64`: `-O3`, stripped.
+`ex2-64`: `-O3`, stripped. Keep `exercise-2.c` open: this exercise compares what the
+compiler did with code you already know. Try each question from the binary first, then
+check it against the source. (Exercise 3 is the one you start without the source.)
 
 1. The Symbol Tree has no `main`. Start from `entry`: which argument of
    `__libc_start_main` is `main`? Rename it.
@@ -98,7 +100,7 @@ import `ex1-64`, and accept the default analysis.
    and why does a copy of it still exist elsewhere (`FUN_00400520`)?
 4. In `main`, `result.label` seems to have vanished: the `printf` prints `local_14`, which
    is `name`. Why is the compiler allowed to do that?
-5. Many course notes say that a function returning a struct gets a hidden pointer as its
+5. A common claim is that a function returning a struct gets a hidden pointer as its
    first argument. Look at `FUN_00400520`'s signature on x86-64: is there a hidden
    pointer? Explain the `ulong` return and the `CONCAT44`.
 6. Create `result_t` by hand (int, char[4], double: check the offsets and the total size),
@@ -106,10 +108,9 @@ import `ex1-64`, and accept the default analysis.
 
 ## Exercise 3: a stripped program with real bugs (40 min)
 
-`shell-O2-stripped`: the vulnerable version of the shell from
-[c-secure-build](https://github.com/Arnaud1404/c-secure-build) (tag `v2-vulnerable`),
-`-O2`, stripped. **Do not open `vuln_shell.c` until the end.** This is the realistic
-exercise: treat it like a service running on a device.
+`shell-O2-stripped`: a small shell with deliberate bugs (`vuln_shell.c`), `-O2`,
+stripped. **Do not open `vuln_shell.c` until the end.** This is the realistic exercise:
+treat it like a service running on a device.
 
 1. Strategy first: with no symbols, what are your entry points into the code? Use Defined
    Strings to find `"recall"` and `"history"`, follow the references, and land in the
@@ -216,7 +217,7 @@ If you can say something like this in your own words, you are done:
    (from `malloc(0x10)`, indexed by `slot * 4`). `DAT_004030c0`: `history_count`, `int`
    (incremented, taken modulo 4). Size bound: the next global after `DAT_00403100`, or the
    end of `.bss`, in the listing or with `readelf -S` / Ghidra's Memory Map.
-4. The four defects (C1 to C4 in c-secure-build):
+4. The four defects:
    - **C1**: `strcpy(&DAT_00403100, local_230)`, reached by any line of 32 bytes or more.
    - **C2**: `printf(pcVar6, &DAT_00403100)` where `pcVar6` is the second word of a
      `history` line, so `history %p%p` controls the format.
